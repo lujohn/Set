@@ -7,7 +7,6 @@
 //
 
 #import "CardMatchingGame.h"
-#import "PlayingCard.h" // for testing
 
 @interface CardMatchingGame()
 
@@ -65,7 +64,7 @@ static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
-- (void)chooseCardAtIndex:(NSUInteger)index
+- (void)chooseCardAtIndex:(NSUInteger)index   // Abstract Method
 {
    Card *card = [self cardAtIndex:index];
    NSArray *othercards = [[NSMutableArray alloc] init];
