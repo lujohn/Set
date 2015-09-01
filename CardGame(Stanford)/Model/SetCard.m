@@ -11,11 +11,21 @@
 @implementation SetCard
 
 static NSString *DEFAULT_SYMBOL = @"?";
-static NSString *DEFAULT_shade_STRING = @"?";
+static NSString *DEFAULT_SHADE_STRING = @"?";
+static NSString *DEFAULT_COLOR = @"?";
 
 - (int)match:(NSArray *)otherCards // OVERRIDE!!!!
 {
    return 0;
+}
+
+- (NSString *)symbolStringForCard
+{
+   NSString *symbolString = @"";
+   for (int i = 0; i < self.number; i++) {
+      symbolString = [symbolString stringByAppendingString:self.symbol];
+   }
+   return symbolString;
 }
 
 @synthesize symbol = _symbol;
@@ -29,7 +39,7 @@ static NSString *DEFAULT_shade_STRING = @"?";
    }
 }
 
-- (void)setColor:(UIColor *)color
+- (void)setColor:(NSString *)color
 {
    if ([[SetCard validColors] containsObject:color]) {
       _color = color;
@@ -56,15 +66,15 @@ static NSString *DEFAULT_shade_STRING = @"?";
    if (_shadeString) {
       return _shadeString;
    }
-   return DEFAULT_shade_STRING;
+   return DEFAULT_SHADE_STRING;
 }
 
-- (UIColor *)color
+- (NSString *)color
 {
    if (_color) {
       return _color;
    }
-   return [UIColor blackColor];
+   return @"?";
 }
 
 + (NSArray *)validSymbols
@@ -74,12 +84,17 @@ static NSString *DEFAULT_shade_STRING = @"?";
 
 + (NSArray *)validColors
 {
-   return @[[UIColor redColor], [UIColor greenColor], [UIColor purpleColor]];
+   return @[@"Red", @"Green", @"Purple"];
 }
 
 + (NSArray *)validShadeStrings
 {
    return @[@"Solid", @"Striped", @"Open"];
+}
+
+- (NSString *)description
+{
+   return [NSString stringWithFormat:@"Number: %d, Symbol: %@, Shade: %@, Color: %@", self.number, self.symbol, self.shadeString, self.color];
 }
 
 @end

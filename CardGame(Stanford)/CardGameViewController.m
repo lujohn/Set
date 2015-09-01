@@ -11,16 +11,10 @@
 #import "CardMatchingGame.h"
 
 @interface CardGameViewController ()
-@property (nonatomic, strong) Deck *deck;
-@property (nonatomic, strong) CardMatchingGame *game;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *threeCardModeSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
-
 @property (weak, nonatomic) IBOutlet UISlider *logSlider;
-
-
 
 @end
 
@@ -36,7 +30,7 @@
 {
    if (!_game) {
       _game = [self createGame];
-      self.game.gameMode = [self determineGameMode];
+      self.game.gameMode = 2;
    }
    return _game;
 }
@@ -45,21 +39,12 @@
 {
    NSArray *gameLog = self.game.gameLog;
    float sliderValue = sender.value;
-
-   int logIndex = ([gameLog count] -1) * sliderValue;
+   int logIndex = ([gameLog count] - 1) * sliderValue;
    self.resultsLabel.text = gameLog[logIndex];
-
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
-   if (self.threeCardModeSwitch.enabled) {
-      self.threeCardModeSwitch.enabled = NO;
-   }
-
-   if (!self.logSlider.enabled) {
-      self.logSlider.enabled = YES;
-   }
    NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
    [self.game chooseCardAtIndex:chosenButtonIndex];
    [self updateUI];
@@ -81,23 +66,8 @@
 - (IBAction)newGame:(UIButton *)sender
 {
    self.game = nil;
-   self.threeCardModeSwitch.enabled = YES;
    self.logSlider.enabled = NO;
    [self updateUI];
-}
-
-- (IBAction)switchGameMode:(UISwitch *)sender
-{
-   self.game.gameMode = [self determineGameMode];
-}
-
-- (int)determineGameMode
-{
-   if (self.threeCardModeSwitch.on) {
-      return 3;
-   } else {
-      return 2;
-   }
 }
 
 - (CardMatchingGame *)createGame
@@ -109,7 +79,6 @@
 {
    return nil;
 }
-
 
 - (NSString *)setTitleForCard:(Card *)card
 {

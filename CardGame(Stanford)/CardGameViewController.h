@@ -9,11 +9,18 @@
 
 #import <UIKit/UIKit.h>
 #import "Deck.h"
-#import "PlayingCardMatchingGame.h"
+#import "CardMatchingGame.h"
 
 @interface CardGameViewController : UIViewController
 
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (nonatomic, strong) CardMatchingGame *game;
+
 - (Deck *)createDeck;  // abstract method
-- (CardMatchingGame *)createGame; // abstract method
+
+// Subclasses should override for specialized games
+- (NSString *)setTitleForCard:(Card *)card;
+- (UIImage *)setBackgroundImageForCard:(Card *)card;
+- (void)updateUI;
 
 @end

@@ -21,9 +21,8 @@
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck
 {
    self = [super init];
-
    if (self) {
-      for (int i = 0; i <= count; i++) {
+      for (int i = 0; i < count; i++) {
          Card *card = [deck drawRandomCard];
          if (card) {
             [self.cards addObject:card];
@@ -64,7 +63,7 @@ static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
-- (void)chooseCardAtIndex:(NSUInteger)index   // Abstract Method
+- (void)chooseCardAtIndex:(NSUInteger)index
 {
    Card *card = [self cardAtIndex:index];
    NSArray *othercards = [[NSMutableArray alloc] init];
@@ -130,12 +129,11 @@ static const int COST_TO_CHOOSE = 1;
 - (NSString *)cardsToString:(NSArray *)cards
 {
    NSString *retString = @"";
-   if ([cards count] == 1) {
-      retString = [[cards firstObject] contents];
-   } else {
-      for (Card *card in cards) {
-         retString = [retString stringByAppendingString:card.contents];
+   for (Card *card in cards) {
+      if (![card contents]) {
+         return @"?";
       }
+      retString = [retString stringByAppendingString:card.contents];
    }
    return retString;
 }

@@ -19,8 +19,6 @@
 
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 - (Card *)cardAtIndex:(NSUInteger)index;
-
-/* Abstract Methods - concrete subclasses MUST implement */
-- (void)chooseCardAtIndex:(NSUInteger)index;  // Abstract Method
+- (void)chooseCardAtIndex:(NSUInteger)index;
 
 @end

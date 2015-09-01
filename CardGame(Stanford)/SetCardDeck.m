@@ -16,20 +16,20 @@
 {
    self = [super init];
    if (self) {
-      SetCard *card = [[SetCard alloc] init];
       for (int i = 1; i <= 3; i++) {
          for (NSString *symbol in [SetCard validSymbols]) {
             for (NSString *shadeString in [SetCard validShadeStrings]) {
-               for (UIColor *color in [SetCard validColors]) {
+               for (NSString *color in [SetCard validColors]) {
+                  SetCard *card = [[SetCard alloc] init];
                   card.symbol = symbol;
                   card.shadeString = shadeString;
                   card.color = color;
                   card.number = i;
+                  [self addCard:card];
                }
             }
          }
       }
-      [self addCard:card];
    }
    return self;
 }
