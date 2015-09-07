@@ -381,12 +381,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="vO5-JQ-CC0">
-                                <rect key="frame" x="14" y="530" width="288" height="31"/>
-                                <connections>
-                                    <action selector="changeGameLogDisplay:" destination="vXZ-lx-hvc" eventType="valueChanged" id="PY2-pQ-fdg"/>
-                                </connections>
-                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bdh-mq-JE0">
                                 <rect key="frame" x="260" y="96" width="40" height="60"/>
                                 <constraints>
@@ -464,7 +458,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="Mvq-4i-PVD"/>
                     <connections>
-                        <outlet property="logSlider" destination="vO5-JQ-CC0" id="oce-g4-Ta8"/>
                         <outlet property="resultsLabel" destination="y5r-ms-bLW" id="Y2z-er-dod"/>
                         <outlet property="scoreLabel" destination="SJp-dP-fNM" id="WbJ-yN-7fp"/>
                         <outletCollection property="cardButtons" destination="jda-3a-DqQ" id="5bs-rc-nFw"/>
@@ -618,15 +611,6 @@
                                     <action selector="touchCardButton:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="WOk-eQ-WnR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ij0-Ac-rom">
-                                <rect key="frame" x="16" y="322" width="64" height="90"/>
-                                <state key="normal" backgroundImage="cardfront">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchCardButton:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="JfI-JS-bAq"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNf-qg-15c">
                                 <rect key="frame" x="232" y="322" width="64" height="90"/>
                                 <state key="normal" backgroundImage="cardfront">
@@ -654,27 +638,36 @@
                                     <action selector="touchCardButton:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="bNk-2N-bYn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ij0-Ac-rom">
+                                <rect key="frame" x="16" y="322" width="64" height="90"/>
+                                <state key="normal" backgroundImage="cardfront">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchCardButton:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="JfI-JS-bAq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="kPH-Bb-VW9"/>
                     <connections>
-                        <outletCollection property="setCardButtons" destination="AXu-hv-ZCe" id="GMo-ZK-mFJ"/>
-                        <outletCollection property="setCardButtons" destination="XhU-ag-MRn" id="Esn-wA-dBP"/>
-                        <outletCollection property="setCardButtons" destination="9Qh-W9-3Mi" id="bCV-Zg-Hea"/>
-                        <outletCollection property="setCardButtons" destination="UdP-sD-Aat" id="TTx-hl-aMh"/>
-                        <outletCollection property="setCardButtons" destination="gB1-la-2Ha" id="5Mm-pb-BOd"/>
-                        <outletCollection property="setCardButtons" destination="vY8-D7-iqH" id="jz5-mL-LgE"/>
-                        <outletCollection property="setCardButtons" destination="Brn-Z4-zcB" id="jIF-fX-zUP"/>
-                        <outletCollection property="setCardButtons" destination="V6X-iu-dNa" id="shD-cU-L9r"/>
-                        <outletCollection property="setCardButtons" destination="vL7-K8-k7O" id="h9D-IQ-Tyx"/>
-                        <outletCollection property="setCardButtons" destination="WgK-tA-nsc" id="IVa-wi-Ijm"/>
-                        <outletCollection property="setCardButtons" destination="8ba-Mb-TRB" id="tak-TX-6lO"/>
-                        <outletCollection property="setCardButtons" destination="NiI-zY-exL" id="m5g-zf-fnS"/>
-                        <outletCollection property="setCardButtons" destination="ij0-Ac-rom" id="VXh-Of-jNn"/>
-                        <outletCollection property="setCardButtons" destination="nsw-u2-La4" id="wcs-D4-yDw"/>
-                        <outletCollection property="setCardButtons" destination="eNs-gQ-WeF" id="avD-tP-Ew6"/>
-                        <outletCollection property="setCardButtons" destination="jNf-qg-15c" id="kus-Vz-tEW"/>
+                        <outletCollection property="cardButtons" destination="AXu-hv-ZCe" id="STS-ab-PZX"/>
+                        <outletCollection property="cardButtons" destination="XhU-ag-MRn" id="dau-Vd-oRe"/>
+                        <outletCollection property="cardButtons" destination="9Qh-W9-3Mi" id="q2N-Mv-HeD"/>
+                        <outletCollection property="cardButtons" destination="UdP-sD-Aat" id="lex-9e-bqG"/>
+                        <outletCollection property="cardButtons" destination="gB1-la-2Ha" id="9CX-bc-F5A"/>
+                        <outletCollection property="cardButtons" destination="vY8-D7-iqH" id="wDD-90-doU"/>
+                        <outletCollection property="cardButtons" destination="Brn-Z4-zcB" id="U5o-dX-bk2"/>
+                        <outletCollection property="cardButtons" destination="V6X-iu-dNa" id="Wd5-4K-fZg"/>
+                        <outletCollection property="cardButtons" destination="vL7-K8-k7O" id="dol-aO-urG"/>
+                        <outletCollection property="cardButtons" destination="WgK-tA-nsc" id="Qwv-qO-RbE"/>
+                        <outletCollection property="cardButtons" destination="8ba-Mb-TRB" id="nQB-uo-TjG"/>
+                        <outletCollection property="cardButtons" destination="NiI-zY-exL" id="5M8-ZO-Efa"/>
+                        <outletCollection property="cardButtons" destination="ij0-Ac-rom" id="Pae-jH-k1S"/>
+                        <outletCollection property="cardButtons" destination="nsw-u2-La4" id="eun-La-4UL"/>
+                        <outletCollection property="cardButtons" destination="eNs-gQ-WeF" id="SNT-5h-Gpf"/>
+                        <outletCollection property="cardButtons" destination="jNf-qg-15c" id="DhL-cr-Tem"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pTc-5g-8no" userLabel="First Responder" sceneMemberID="firstResponder"/>

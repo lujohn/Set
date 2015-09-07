@@ -13,14 +13,12 @@
 
 @interface CardGameViewController : UIViewController
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (nonatomic, strong) CardMatchingGame *game;
 
 - (Deck *)createDeck;  // abstract method
 
-// Subclasses should override for specialized games
-- (NSString *)setTitleForCard:(Card *)card;
+// Override for specialized games
+- (NSAttributedString *)setAttributedTitleForCard:(Card *)card;
 - (UIImage *)setBackgroundImageForCard:(Card *)card;
-- (void)updateUI;
 
 @end

@@ -11,19 +11,12 @@
 
 #import "SetCard.h"
 
-@interface SetCardGameViewController ()
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *setCardButtons;
-
-@end
-
 @implementation SetCardGameViewController
 
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-   self.cardButtons = self.setCardButtons;
    self.game.gameMode = 3;
-   [self updateUI];
 }
 
 - (Deck *)createDeck
@@ -32,23 +25,11 @@
    return setDeck;
 }
 
-- (void)updateUI
-{
-   for (UIButton *cardButton in self.cardButtons) {
-      NSUInteger index = [self.cardButtons indexOfObject:cardButton];
-      Card *card = [self.game cardAtIndex:index];
-      [cardButton setAttributedTitle:[self setAttributedTitleForCard:card] forState:UIControlStateNormal];
-      [cardButton setBackgroundImage:[self setBackgroundImageForCard:card] forState:UIControlStateNormal];
-      cardButton.enabled = !card.isMatched;
-   }
-}
-
 - (NSAttributedString *)setAttributedTitleForCard:(Card *)card
 {
    SetCard *setCard = (SetCard *)card;
    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[setCard symbolStringForCard]];
    NSRange range = NSMakeRange(0, [[setCard symbolStringForCard] length]);
-   NSLog(@"Length %d", [[setCard symbolStringForCard] length]);
 
    NSDictionary *attributes = nil;
    NSString *cardColor = setCard.color;
@@ -90,13 +71,6 @@
    }
 }
 
-- (NSString *)setTitleForCard:(Card *)card
-{
-   SetCard *setCard = (SetCard *)card;
-   NSString *retString = [NSString stringWithFormat:@"%@", setCard.symbol];
-   return retString;
-}
-
 - (UIImage *)setBackgroundImageForCard:(Card *)card
 {
    if (card.isChosen) {
@@ -104,6 +78,11 @@
    } else {
       return [UIImage imageNamed:@"cardfront"];
    }
+}
+
+- (void)dealloc
+{
+    NSLog(@"Set Card Game Deallocated!");
 }
 
 @end

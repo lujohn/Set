@@ -16,7 +16,51 @@ static NSString *DEFAULT_COLOR = @"?";
 
 - (int)match:(NSArray *)otherCards // OVERRIDE!!!!
 {
-   return 0;
+    return [self calculateMatchScore:otherCards];
+}
+
+// Clean up!!
+- (int)calculateMatchScore:(NSArray *)otherCards
+{
+    BOOL allNumbersSame = YES, allNumbersDifferent = YES,
+    allColorsSame = YES, allColorsDifferent = YES,
+    allShadesSame = YES, allShadesDifferent = YES,
+    allSymbolsSame = YES, allSymbolsDifferent = YES;
+    
+    for (id card in otherCards) {
+        if ([card isMemberOfClass:[SetCard class]]) {
+            if ((!allSymbolsSame && !allSymbolsDifferent) ||
+                (!allNumbersSame && !allNumbersDifferent) ||
+                (!allColorsSame && !allColorsDifferent) ||
+                 (!allShadesSame && !allShadesDifferent)) {
+                return 0;
+            }
+            SetCard *setCard = (SetCard *)card;
+            (self.number == setCard.number) ? (allNumbersDifferent = NO) : (allNumbersSame = NO);
+            ([self.color isEqualToString:setCard.color]) ? (allColorsDifferent = NO) : (allColorsSame = NO);
+            ([self.shadeString isEqualToString:setCard.shadeString]) ? (allShadesDifferent = NO) : (allShadesSame = NO);
+            ([self.symbol isEqualToString:setCard.symbol]) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
+        }
+    }
+    for (int i = 0; i < [otherCards count]; i++) {
+        for (int j = i + 1; j < [otherCards count]; j++) {
+            if ((!allSymbolsSame && !allSymbolsDifferent) ||
+                (!allNumbersSame && !allNumbersDifferent) ||
+                (!allColorsSame && !allColorsDifferent) ||
+                (!allShadesSame && !allShadesDifferent)) {
+                return 0;
+            }
+            if ([otherCards[i] isMemberOfClass:[SetCard class]] && [otherCards[j] isMemberOfClass:[SetCard class]]) {
+                SetCard *otherCard1 = (SetCard *)otherCards[i];
+                SetCard *otherCard2 = (SetCard *)otherCards[j];
+                (otherCard1.number == otherCard2.number) ? (allNumbersDifferent = NO) : (allNumbersSame = NO);
+                ([otherCard1.color isEqualToString:otherCard2.color]) ? (allColorsDifferent = NO) : (allColorsSame = NO);
+                ([otherCard1.shadeString isEqualToString:otherCard2.shadeString]) ? (allShadesDifferent = NO) : (allShadesSame = NO);
+                ([otherCard1.symbol isEqualToString:otherCard2.symbol]) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
+            }
+        }
+    }
+    return 20;
 }
 
 - (NSString *)symbolStringForCard
