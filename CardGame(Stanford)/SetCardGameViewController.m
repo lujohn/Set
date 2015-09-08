@@ -15,74 +15,87 @@
 
 - (void)viewDidLoad
 {
-   [super viewDidLoad];
-   self.game.gameMode = 3;
+    [super viewDidLoad];
+}
+
+/* ------------ Abstract Method Implementations ------------- */
+- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+{
+    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
+    for (SetCard *card in cards) {
+        [retString appendAttributedString:[self attributedTitleForCard:card]];
+    }
+    return retString;
 }
 
 - (Deck *)createDeck
 {
-   Deck *setDeck = [[SetCardDeck alloc] init];
-   return setDeck;
+    Deck *setDeck = [[SetCardDeck alloc] init];
+    return setDeck;
 }
 
-- (NSAttributedString *)setAttributedTitleForCard:(Card *)card
+/* -------------- Method Overrides -------------- */
+- (NSAttributedString *)attributedTitleForCard:(Card *)card
 {
-   SetCard *setCard = (SetCard *)card;
-   NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[setCard symbolStringForCard]];
-   NSRange range = NSMakeRange(0, [[setCard symbolStringForCard] length]);
-
-   NSDictionary *attributes = nil;
-   NSString *cardColor = setCard.color;
-   NSString *shade = setCard.shadeString;
-
-   if ([shade isEqualToString:@"Striped"]) {
-      attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:cardColor withAlpha:0.3],
-                     NSStrokeWidthAttributeName : @-5,
-                     NSStrokeColorAttributeName : [self colorFromColorString:cardColor]};
-   } else if ([shade isEqualToString:@"Open"]) {
-      attributes = @{NSForegroundColorAttributeName : [UIColor clearColor],
-                     NSStrokeColorAttributeName: [self colorFromColorString:cardColor],
-                     NSStrokeWidthAttributeName: @-8};
-   } else {
-      attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:cardColor]};
-   }
-
-   if (attributes) {
-      [title addAttributes:attributes range:range];
-   }
-   return title;
-}
-
-- (UIColor *)colorFromColorString:(NSString *)color
-{
-   return [self colorFromColorString:color withAlpha:1.0];
-}
-
-- (UIColor *)colorFromColorString:(NSString *)color withAlpha:(CGFloat)alpha
-{
-   if ([color isEqualToString:@"Red"]) {
-      return [UIColor colorWithRed:255 green:0 blue:0 alpha:alpha];
-   } else if ([color isEqualToString:@"Green"]) {
-      return [UIColor colorWithRed:0 green:255 blue:0 alpha:alpha];
-   } else if ([color isEqualToString:@"Purple"]) {
-      return [UIColor colorWithRed:255 green:0 blue:255 alpha:alpha];
-   } else {
-      return [UIColor blackColor];  // default color
-   }
+    SetCard *setCard = (SetCard *)card;
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[setCard symbolStringForCard]];
+    NSRange range = NSMakeRange(0, [[setCard symbolStringForCard] length]);
+    
+    NSDictionary *attributes = [self attributesForCard:setCard];
+    if (attributes) {
+        [title addAttributes:attributes range:range];
+    }
+    return title;
 }
 
 - (UIImage *)setBackgroundImageForCard:(Card *)card
 {
-   if (card.isChosen) {
-      return [UIImage imageNamed:@"setCardChosen"];
-   } else {
-      return [UIImage imageNamed:@"cardfront"];
-   }
+    if (card.isChosen) {
+        return [UIImage imageNamed:@"setCardChosen"];
+    } else {
+        return [UIImage imageNamed:@"cardfront"];
+    }
 }
 
-- (void)dealloc
+- (void)prepareGame
 {
-    NSLog(@"Set Card Game Deallocated!");
+    self.game.gameMode = 3;
+}
+
+/* ---------- Helper Methods ----------- */
+- (NSDictionary *)attributesForCard:(SetCard *)card
+{
+    NSDictionary *attributes = nil;
+    if ([card.shadeString isEqualToString:@"Striped"]) {
+        attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:card.color withAlpha:0.3],
+                       NSStrokeWidthAttributeName : @-5,
+                       NSStrokeColorAttributeName : [self colorFromColorString:card.color]};
+    } else if ([card.shadeString isEqualToString:@"Open"]) {
+        attributes = @{NSForegroundColorAttributeName : [UIColor clearColor],
+                       NSStrokeColorAttributeName: [self colorFromColorString:card.color],
+                       NSStrokeWidthAttributeName: @-8};
+    } else {
+        attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:card.color]};
+    }
+    return attributes;
+}
+
+- (UIColor *)colorFromColorString:(NSString *)color
+{
+    return [self colorFromColorString:color withAlpha:1.0];
+}
+
+- (UIColor *)colorFromColorString:(NSString *)color withAlpha:(CGFloat)alpha
+{
+    if ([color isEqualToString:@"Red"]) {
+        return [UIColor colorWithRed:255 green:0 blue:0 alpha:alpha];
+    } else if ([color isEqualToString:@"Green"]) {
+        return [UIColor colorWithRed:0 green:255 blue:0 alpha:alpha];
+    } else if ([color isEqualToString:@"Purple"]) {
+        return [UIColor colorWithRed:255 green:0 blue:255 alpha:alpha];
+    } else {
+        return [UIColor blackColor];  // default color
+    }
 }
 
 @end

@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
 
+@property (strong, nonatomic) NSMutableArray *gameLog;
+
+
 @end
 
 @implementation CardGameViewController
@@ -30,24 +33,26 @@
 {
     if (!_game) {
         _game = [self createGame];
-        self.game.gameMode = 2;
+        [self prepareGame];
     }
     return _game;
 }
 
-- (IBAction)changeGameLogDisplay:(UISlider *)sender
+- (NSMutableArray *)gameLog
 {
-    NSArray *gameLog = self.game.gameLog;
-    float sliderValue = sender.value;
-    int logIndex = ([gameLog count] - 1) * sliderValue;
-    self.resultsLabel.text = gameLog[logIndex];
+    if (!_gameLog) {
+        _gameLog = [[NSMutableArray alloc] init];
+    }
+    return _gameLog;
 }
+
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
+    [self.game updateCurrentChoices];
 }
 
 - (void)updateUI
@@ -55,12 +60,12 @@
     for (UIButton *cardButton in self.cardButtons) {
         NSUInteger index = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:index];
-        [cardButton setAttributedTitle:[self setAttributedTitleForCard:card] forState:UIControlStateNormal];
+        [cardButton setAttributedTitle:[self attributedTitleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self setBackgroundImageForCard:card] forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
-        self.scoreLabel.text = [NSString stringWithFormat:@"Score:  %ld", (long)self.game.score];
-        self.resultsLabel.text = self.game.currentResult;
     }
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score:  %ld", (long)self.game.score];
+    self.resultsLabel.attributedText = [self attributedResults];
 }
 
 - (IBAction)newGame:(UIButton *)sender
@@ -74,12 +79,27 @@
     return [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
 }
 
-- (Deck *)createDeck  // abstract method
+- (NSAttributedString *)attributedResults
 {
-    return nil;
+    NSInteger matchScore = self.game.scoreForCurrentMove;
+    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
+    if (matchScore == 0) {
+        retString = [[NSMutableAttributedString alloc] initWithString:@"Current Selection(s): "];
+        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
+    } else if (matchScore < 0) {
+        retString = [[NSMutableAttributedString alloc] initWithString:@"Sorry, "];
+        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
+        [retString appendAttributedString:[[NSAttributedString alloc] initWithString:@" do not match!" attributes:@{}]];
+    } else if (matchScore > 0) {
+        retString = [[NSMutableAttributedString alloc] initWithString:@"Matched "];
+        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
+        [retString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %d points!", matchScore] attributes:@{}]];
+    }
+    return retString;
 }
 
-- (NSAttributedString *)setAttributedTitleForCard:(Card *)card
+// ------- Sublclasses Override for Specialized Behavior --------
+- (NSAttributedString *)attributedTitleForCard:(Card *)card
 {
     if (card.isChosen) {
         return [[NSAttributedString alloc] initWithString:card.contents];
@@ -95,6 +115,23 @@
     } else {
         return [UIImage imageNamed:@"cardback"];
     }
+}
+
+- (void)prepareGame
+{
+    self.game.gameMode = 2;
+}
+
+
+// -------- Abstract Methods ----------
+- (Deck *)createDeck
+{
+    return nil;
+}
+
+- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+{
+    return nil;
 }
 
 @end

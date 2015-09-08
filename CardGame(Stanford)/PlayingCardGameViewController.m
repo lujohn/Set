@@ -16,10 +16,22 @@
 @implementation PlayingCardGameViewController
 
 
-
+/* ------------ Abstract Method Implementations -------------- */
 - (Deck *)createDeck
 {
    return [[PlayingCardDeck alloc] init];
+}
+
+- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+{
+    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    for (Card *card in cards) {
+        NSMutableAttributedString *cardContents = [[NSMutableAttributedString alloc] initWithString:card.contents];
+        [cardContents setAttributes:@{} range:NSMakeRange(0, [card.contents length])];
+        [retString appendAttributedString:cardContents];
+    }
+    return retString;
 }
 
 @end

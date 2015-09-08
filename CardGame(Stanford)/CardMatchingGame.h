@@ -13,12 +13,16 @@
 @interface CardMatchingGame : NSObject
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly) NSInteger scoreForCurrentMove;
 @property (nonatomic) int gameMode;
-@property (nonatomic, strong) NSString *currentResult;
 @property (nonatomic, strong) NSMutableArray *gameLog;
+@property (nonatomic, strong) NSMutableArray *currentChoices;
 
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 - (Card *)cardAtIndex:(NSUInteger)index;
+- (void)updateCurrentChoices;
+
+// Override for Specialized games
 - (void)chooseCardAtIndex:(NSUInteger)index;
 
 @end

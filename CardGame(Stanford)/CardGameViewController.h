@@ -15,10 +15,14 @@
 
 @property (nonatomic, strong) CardMatchingGame *game;
 
-- (Deck *)createDeck;  // abstract method
 
-// Override for specialized games
-- (NSAttributedString *)setAttributedTitleForCard:(Card *)card;
+/* -------- Abstract Methods (Subclasses MUST Override) ---------- */
+- (Deck *)createDeck;
+- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards;
+
+// Subclasses should override for specialized behavior
+- (NSAttributedString *)attributedTitleForCard:(Card *)card;
 - (UIImage *)setBackgroundImageForCard:(Card *)card;
+- (void)prepareGame;
 
 @end

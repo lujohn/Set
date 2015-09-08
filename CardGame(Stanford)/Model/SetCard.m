@@ -60,7 +60,7 @@ static NSString *DEFAULT_COLOR = @"?";
             }
         }
     }
-    return 20;
+    return 5;
 }
 
 - (NSString *)symbolStringForCard

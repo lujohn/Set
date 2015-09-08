@@ -12,7 +12,8 @@
 
 @property (nonatomic, strong) NSMutableArray *cards;
 @property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, strong) NSMutableArray *currentChoices;
+@property (nonatomic, readwrite) NSInteger scoreForCurrentMove;
+
 
 @end
 
@@ -48,6 +49,7 @@
    if (!_currentChoices) {
       _currentChoices = [[NSMutableArray alloc] init];
    }
+    //[self updateCurrentChoices];
    return _currentChoices;
 }
 
@@ -97,7 +99,7 @@ static const int COST_TO_CHOOSE = 1;
          [self.currentChoices addObject:card];
       }
    }
-   [self setResultsWithMatchScore:totalMatchScore];
+    self.scoreForCurrentMove = totalMatchScore;
 }
 
 - (NSArray *)allUnmatchedChosenCards
@@ -111,33 +113,6 @@ static const int COST_TO_CHOOSE = 1;
    return allChosenCards;
 }
 
-- (void)setResultsWithMatchScore:(int)matchScore
-{
-   // This happens while # cards chosen is less than n OR when you clicks on an already chosen card.
-   if (matchScore == 0) {
-      self.currentResult = [NSString stringWithFormat:@"Current Selection(s): %@", [self cardsToString:self.currentChoices]];
-   } else if (matchScore < 0) {
-      self.currentResult = [NSString stringWithFormat:@"Sorry, %@ do not match! %d point penalty!", [self cardsToString:self.currentChoices], matchScore];
-      self.currentChoices = [NSMutableArray arrayWithObject:[self.currentChoices lastObject]];
-   } else if (matchScore > 0) {
-      self.currentResult = [NSString stringWithFormat:@"Matched %@ for %d points!", [self cardsToString:self.currentChoices], matchScore];
-      [self.currentChoices removeAllObjects];
-   }
-   [self.gameLog addObject:self.currentResult];
-}
-
-- (NSString *)cardsToString:(NSArray *)cards
-{
-   NSString *retString = @"";
-   for (Card *card in cards) {
-      if (![card contents]) {
-         return @"?";
-      }
-      retString = [retString stringByAppendingString:card.contents];
-   }
-   return retString;
-}
-
 - (Card *)cardAtIndex:(NSUInteger)index
 {
    Card *card = nil;
@@ -145,6 +120,15 @@ static const int COST_TO_CHOOSE = 1;
       card = self.cards[index];
    }
    return card;
+}
+
+- (void)updateCurrentChoices
+{
+    if (self.scoreForCurrentMove < 0) {
+        self.currentChoices = [NSMutableArray arrayWithObject:[self.currentChoices lastObject]];
+    } else if (self.scoreForCurrentMove > 0) {
+        [self.currentChoices removeAllObjects];
+    }
 }
 
 @end
