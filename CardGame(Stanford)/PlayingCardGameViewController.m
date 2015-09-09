@@ -8,6 +8,7 @@
 
 #import "PlayingCardGameViewController.h"
 #import "PlayingCardDeck.h"
+#import "CardGameHistoryViewController.h"
 
 @interface PlayingCardGameViewController ()
 
@@ -15,6 +16,20 @@
 
 @implementation PlayingCardGameViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"playingCardGameHistory"]) {
+        if ([segue.destinationViewController isMemberOfClass:[CardGameHistoryViewController class]]) {
+            CardGameHistoryViewController *historyController = (CardGameHistoryViewController *)segue.destinationViewController;
+            historyController.gameLog = self.gameLog;
+        }
+    }
+}
 
 /* ------------ Abstract Method Implementations -------------- */
 - (Deck *)createDeck
@@ -33,5 +48,7 @@
     }
     return retString;
 }
+
+
 
 @end

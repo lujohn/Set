@@ -8,6 +8,7 @@
 
 #import "SetCardGameViewController.h"
 #import "SetCardDeck.h"
+#import "CardGameHistoryViewController.h"
 
 #import "SetCard.h"
 
@@ -16,6 +17,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"setCardGameHistory"]) {
+        if ([segue.destinationViewController isMemberOfClass:[CardGameHistoryViewController class]]) {
+            CardGameHistoryViewController *historyController = (CardGameHistoryViewController *)segue.destinationViewController;
+            historyController.gameLog = self.gameLog;
+        }
+    }
 }
 
 /* ------------ Abstract Method Implementations ------------- */
@@ -88,11 +99,11 @@
 - (UIColor *)colorFromColorString:(NSString *)color withAlpha:(CGFloat)alpha
 {
     if ([color isEqualToString:@"Red"]) {
-        return [UIColor colorWithRed:255 green:0 blue:0 alpha:alpha];
+        return [UIColor colorWithRed:1 green:0 blue:0 alpha:alpha];
     } else if ([color isEqualToString:@"Green"]) {
-        return [UIColor colorWithRed:0 green:255 blue:0 alpha:alpha];
+        return [UIColor colorWithRed:0 green:1 blue:0 alpha:alpha];
     } else if ([color isEqualToString:@"Purple"]) {
-        return [UIColor colorWithRed:255 green:0 blue:255 alpha:alpha];
+        return [UIColor colorWithRed:1 green:0 blue:1 alpha:alpha];
     } else {
         return [UIColor blackColor];  // default color
     }

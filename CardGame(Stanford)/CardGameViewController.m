@@ -15,9 +15,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
-
-@property (strong, nonatomic) NSMutableArray *gameLog;
-
+@property (nonatomic, readwrite) NSMutableArray *gameLog;
 
 @end
 
@@ -71,6 +69,7 @@
 - (IBAction)newGame:(UIButton *)sender
 {
     self.game = nil;
+    self.gameLog = nil;
     [self updateUI];
 }
 
@@ -95,6 +94,7 @@
         [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
         [retString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %d points!", matchScore] attributes:@{}]];
     }
+    [self.gameLog addObject:retString];
     return retString;
 }
 

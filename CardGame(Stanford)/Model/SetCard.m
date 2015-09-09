@@ -14,7 +14,7 @@ static NSString *DEFAULT_SYMBOL = @"?";
 static NSString *DEFAULT_SHADE_STRING = @"?";
 static NSString *DEFAULT_COLOR = @"?";
 
-- (int)match:(NSArray *)otherCards // OVERRIDE!!!!
+- (int)match:(NSArray *)otherCards
 {
     return [self calculateMatchScore:otherCards];
 }
@@ -44,12 +44,6 @@ static NSString *DEFAULT_COLOR = @"?";
     }
     for (int i = 0; i < [otherCards count]; i++) {
         for (int j = i + 1; j < [otherCards count]; j++) {
-            if ((!allSymbolsSame && !allSymbolsDifferent) ||
-                (!allNumbersSame && !allNumbersDifferent) ||
-                (!allColorsSame && !allColorsDifferent) ||
-                (!allShadesSame && !allShadesDifferent)) {
-                return 0;
-            }
             if ([otherCards[i] isMemberOfClass:[SetCard class]] && [otherCards[j] isMemberOfClass:[SetCard class]]) {
                 SetCard *otherCard1 = (SetCard *)otherCards[i];
                 SetCard *otherCard2 = (SetCard *)otherCards[j];
@@ -57,6 +51,12 @@ static NSString *DEFAULT_COLOR = @"?";
                 ([otherCard1.color isEqualToString:otherCard2.color]) ? (allColorsDifferent = NO) : (allColorsSame = NO);
                 ([otherCard1.shadeString isEqualToString:otherCard2.shadeString]) ? (allShadesDifferent = NO) : (allShadesSame = NO);
                 ([otherCard1.symbol isEqualToString:otherCard2.symbol]) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
+            }
+            if ((!allSymbolsSame && !allSymbolsDifferent) ||
+                (!allNumbersSame && !allNumbersDifferent) ||
+                (!allColorsSame && !allColorsDifferent) ||
+                (!allShadesSame && !allShadesDifferent)) {
+                return 0;
             }
         }
     }

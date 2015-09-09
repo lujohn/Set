@@ -14,7 +14,7 @@
 @interface CardGameViewController : UIViewController
 
 @property (nonatomic, strong) CardMatchingGame *game;
-
+@property (strong, nonatomic, readonly) NSMutableArray *gameLog;
 
 /* -------- Abstract Methods (Subclasses MUST Override) ---------- */
 - (Deck *)createDeck;
