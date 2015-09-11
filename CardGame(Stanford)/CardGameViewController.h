@@ -13,11 +13,13 @@
 
 @interface CardGameViewController : UIViewController
 
+@property (strong, nonatomic, readonly) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (strong, nonatomic, readonly) NSMutableArray *gameLog;
 
 /* -------- Abstract Methods (Subclasses MUST Override) ---------- */
 - (Deck *)createDeck;
+- (CardMatchingGame *)createGame;
 - (NSAttributedString *)cardsToAttributedString:(NSArray *)cards;
 
 // Subclasses should override for specialized behavior

@@ -21,6 +21,7 @@
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 - (Card *)cardAtIndex:(NSUInteger)index;
 - (void)updateCurrentChoices;
+- (void)saveGameToPermanentStore;
 
 // Override for Specialized games
 - (void)chooseCardAtIndex:(NSUInteger)index;

@@ -12,7 +12,7 @@
 
 @interface CardGameViewController ()
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (strong, nonatomic, readwrite) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
 @property (nonatomic, readwrite) NSMutableArray *gameLog;
@@ -50,7 +50,6 @@
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
-    [self.game updateCurrentChoices];
 }
 
 - (void)updateUI
@@ -64,6 +63,7 @@
     }
     self.scoreLabel.text = [NSString stringWithFormat:@"Score:  %ld", (long)self.game.score];
     self.resultsLabel.attributedText = [self attributedResults];
+    [self.game updateCurrentChoices];
 }
 
 - (IBAction)newGame:(UIButton *)sender
@@ -73,9 +73,14 @@
     [self updateUI];
 }
 
+- (IBAction)save:(UIButton *)sender
+{
+    [self.game saveGameToPermanentStore];
+}
+
 - (CardMatchingGame *)createGame
 {
-    return [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+    return nil;
 }
 
 - (NSAttributedString *)attributedResults

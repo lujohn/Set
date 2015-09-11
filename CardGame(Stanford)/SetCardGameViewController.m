@@ -9,8 +9,8 @@
 #import "SetCardGameViewController.h"
 #import "SetCardDeck.h"
 #import "CardGameHistoryViewController.h"
-
 #import "SetCard.h"
+#import "SetCardMatchingGame.h"
 
 @implementation SetCardGameViewController
 
@@ -37,6 +37,11 @@
         [retString appendAttributedString:[self attributedTitleForCard:card]];
     }
     return retString;
+}
+
+- (CardMatchingGame *)createGame
+{
+    return [[SetCardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
 }
 
 - (Deck *)createDeck

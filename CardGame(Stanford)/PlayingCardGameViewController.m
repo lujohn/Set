@@ -8,6 +8,7 @@
 
 #import "PlayingCardGameViewController.h"
 #import "PlayingCardDeck.h"
+#import "PlayingCardMatchingGame.h"
 #import "CardGameHistoryViewController.h"
 
 @interface PlayingCardGameViewController ()
@@ -32,6 +33,11 @@
 }
 
 /* ------------ Abstract Method Implementations -------------- */
+- (CardMatchingGame *)createGame
+{
+    return [[PlayingCardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+}
+
 - (Deck *)createDeck
 {
    return [[PlayingCardDeck alloc] init];
