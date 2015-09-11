@@ -14,7 +14,13 @@
 @interface HighScoresViewController ()
 
 //@property (nonatomic, strong) NSArray *highScoresData;
-@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *highScoreLabels;
+
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *gamePlayedLabels;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *dateLabels;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *durationLabels;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *scoreLabels;
+
+
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *sortButtons;
 
 
@@ -45,17 +51,45 @@
     
     // Sort Outlet collection by tag number.
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tag" ascending:YES];
-    self.highScoreLabels = [self.highScoreLabels sortedArrayUsingDescriptors:@[sortDescriptor]];
+    self.gamePlayedLabels = [self.gamePlayedLabels sortedArrayUsingDescriptors:@[sortDescriptor]];
+    self.dateLabels = [self.dateLabels sortedArrayUsingDescriptors:@[sortDescriptor]];
+    self.durationLabels = [self.durationLabels sortedArrayUsingDescriptors:@[sortDescriptor]];
+    self.scoreLabels = [self.scoreLabels sortedArrayUsingDescriptors:@[sortDescriptor]];
     
     int i = 0;
-    while (i < [self.highScoreLabels count]) {
-        UILabel *label = self.highScoreLabels[i];
+    while (i < [self.gamePlayedLabels count]) {
+        UILabel *gameLabel, *dateLabel, *durationLabel, *scoreLabel;
+        gameLabel = self.gamePlayedLabels[i];
+        dateLabel = self.dateLabels[i];
+        durationLabel = self.durationLabels[i];
+        scoreLabel = self.scoreLabels[i];
+        
         if (i >= [sortedHighScoreEntries count]) {
-            label.text = @"";
+            gameLabel.text = @"";
+            dateLabel.text = @"";
+            durationLabel.text = @"";
+            scoreLabel.text = @"";
         } else {
             NSDictionary *highScoreEntry = sortedHighScoreEntries[i];
-            label.text = [self titleForLabelFor:highScoreEntry];
-            label.adjustsFontSizeToFitWidth = YES;
+            gameLabel.text = [highScoreEntry objectForKey:@"Game"];
+            
+            NSDate *date = [highScoreEntry objectForKey:@"Date"];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.timeStyle = NSDateFormatterMediumStyle;
+            dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+            NSString *dateString = [dateFormatter stringFromDate:date];
+            
+            dateLabel.text = dateString;
+            
+            NSNumber *duration = [highScoreEntry objectForKey:@"Duration"];
+            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+            numberFormatter.maximumFractionDigits = 0;
+            NSString *durationString = [numberFormatter stringFromNumber:duration];
+            
+            durationLabel.text = durationString;
+            
+            NSNumber *score = [highScoreEntry objectForKey:@"Score"];
+            scoreLabel.text = [NSString stringWithFormat:@"%@", score];
         }
         i++;
     }
