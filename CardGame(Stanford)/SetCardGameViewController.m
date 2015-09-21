@@ -8,7 +8,6 @@
 
 #import "SetCardGameViewController.h"
 #import "SetCardDeck.h"
-#import "CardGameHistoryViewController.h"
 #import "SetCard.h"
 #import "SetCardMatchingGame.h"
 
@@ -17,16 +16,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"setCardGameHistory"]) {
-        if ([segue.destinationViewController isMemberOfClass:[CardGameHistoryViewController class]]) {
-            CardGameHistoryViewController *historyController = (CardGameHistoryViewController *)segue.destinationViewController;
-            historyController.gameLog = self.gameLog;
-        }
-    }
 }
 
 /* ------------ Abstract Method Implementations ------------- */
@@ -41,7 +30,7 @@
 
 - (CardMatchingGame *)createGame
 {
-    return [[SetCardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+    return [[SetCardMatchingGame alloc] initWithCardCount:[self.cardViews count] usingDeck:[self createDeck]];
 }
 
 - (Deck *)createDeck

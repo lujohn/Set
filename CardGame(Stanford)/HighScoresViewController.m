@@ -7,7 +7,6 @@
 //
 
 #import "HighScoresViewController.h"
-#import "HighScoreRecord.h"
 #import "PlayingCardMatchingGame.h"
 #import "SetCardMatchingGame.h"
 

@@ -88,4 +88,9 @@ static const int FLUSH_BONUS = 6;
    return [[PlayingCard rankStrings] count] - 1;  // max: 13
 }
 
+- (NSString *)description
+{
+    return self.contents;
+}
+
 @end

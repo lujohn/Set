@@ -9,7 +9,8 @@
 #import "PlayingCardGameViewController.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCardMatchingGame.h"
-#import "CardGameHistoryViewController.h"
+#import "PlayingCardView.h"
+#import "PlayingCard.h"
 
 @interface PlayingCardGameViewController ()
 
@@ -17,25 +18,17 @@
 
 @implementation PlayingCardGameViewController
 
+#define DEFAULT_NUM_CARDS 16
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"playingCardGameHistory"]) {
-        if ([segue.destinationViewController isMemberOfClass:[CardGameHistoryViewController class]]) {
-            CardGameHistoryViewController *historyController = (CardGameHistoryViewController *)segue.destinationViewController;
-            historyController.gameLog = self.gameLog;
-        }
-    }
-}
-
 /* ------------ Abstract Method Implementations -------------- */
 - (CardMatchingGame *)createGame
 {
-    return [[PlayingCardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+    return [[PlayingCardMatchingGame alloc] initWithCardCount:DEFAULT_NUM_CARDS usingDeck:[self createDeck]];
 }
 
 - (Deck *)createDeck
@@ -43,16 +36,22 @@
    return [[PlayingCardDeck alloc] init];
 }
 
-- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+- (UIView *)createCardView
 {
-    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
-    
-    for (Card *card in cards) {
-        NSMutableAttributedString *cardContents = [[NSMutableAttributedString alloc] initWithString:card.contents];
-        [cardContents setAttributes:@{} range:NSMakeRange(0, [card.contents length])];
-        [retString appendAttributedString:cardContents];
+    return [[PlayingCardView alloc] init];
+}
+
+- (void)setupView:(UIView *)view forCard:(Card *)card
+{
+    if ([view isMemberOfClass:[PlayingCardView class]] && [card isMemberOfClass:[PlayingCard class]]) {
+        PlayingCardView *playingCardView = (PlayingCardView *)view;
+        PlayingCard *playingCard = (PlayingCard *)card;
+        playingCardView.faceUp = card.isChosen;
+        if (playingCardView.faceUp) {
+            playingCardView.rank = playingCard.rank;
+            playingCardView.suit = playingCard.suit;
+        }
     }
-    return retString;
 }
 
 

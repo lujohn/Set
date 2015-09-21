@@ -17,11 +17,15 @@
 @property (nonatomic) int gameMode;
 @property (nonatomic, strong) NSMutableArray *gameLog;
 @property (nonatomic, strong) NSMutableArray *currentChoices;
+@property (nonatomic, readonly) NSUInteger cardCount;
+
 
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 - (Card *)cardAtIndex:(NSUInteger)index;
-- (void)updateCurrentChoices;
 - (void)saveGameToPermanentStore;
+- (BOOL)addCardToGame;
+- (void)removeCardFromGame:(Card *)card;
+- (void)removeCards:(NSArray *)cards;
 
 // Override for Specialized games
 - (void)chooseCardAtIndex:(NSUInteger)index;

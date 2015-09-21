@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, readwrite) NSInteger scoreForCurrentMove;
 @property (nonatomic, strong) NSDate *gameStartTime;
+@property (nonatomic, strong) Deck *deck;
 
 
 @end
@@ -24,6 +25,7 @@
 {
     self = [super init];
     if (self) {
+        _deck = deck;
         for (int i = 0; i < count; i++) {
             Card *card = [deck drawRandomCard];
             if (card) {
@@ -62,9 +64,44 @@
     return _cards;
 }
 
+- (NSUInteger)cardCount
+{
+    return [self.cards count];
+}
+
 static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
+
+- (Card *)cardAtIndex:(NSUInteger)index
+{
+    Card *card = nil;
+    if (index < [self.cards count]) {
+        card = self.cards[index];
+    }
+    return card;
+}
+
+- (BOOL)addCardToGame
+{
+    Card *card = [self.deck drawRandomCard];
+    if (card) {
+        [self.cards addObject:card];
+        return YES;
+    } else {
+        return NO;  // no more cards in deck;
+    }
+}
+
+- (void)removeCardFromGame:(Card *)card
+{
+    [self.cards removeObject:card];
+}
+
+- (void)removeCards:(NSArray *)cards
+{
+    [self.cards removeObjectsInArray:cards];
+}
 
 - (void)chooseCardAtIndex:(NSUInteger)index
 {
@@ -77,29 +114,33 @@ static const int COST_TO_CHOOSE = 1;
             [self.currentChoices removeObject:card];
         } else {
             othercards = [self allUnmatchedChosenCards];
+            [self.currentChoices addObject:card];
             // Only calculate a score if number of other cards is (n - 1) for n-match game.
-            if ([self.currentChoices count] == self.gameMode - 1) {
-                int matchScore = [card match:self.currentChoices];
+            if ([self.currentChoices count] == self.gameMode) {
+                int matchScore = [card match:othercards];
                 if (matchScore) {
                     totalMatchScore = matchScore * MATCH_BONUS;
                     card.matched = YES;
-                    for (Card *othercard in self.currentChoices) {
+                    for (Card *othercard in othercards) {
                         othercard.matched = YES;
                     }
+                    [self.currentChoices removeAllObjects];
                 } else {
-                    for (Card *othercard in self.currentChoices) {
+                    for (Card *othercard in othercards) {
                         othercard.chosen = NO;
                     };
                     totalMatchScore = -MISMATCH_PENALTY;
+                    self.currentChoices = [NSMutableArray arrayWithObject:card];
                 }
                 self.score += totalMatchScore;
             }
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
-            [self.currentChoices addObject:card];
         }
     }
     self.scoreForCurrentMove = totalMatchScore;
+    NSLog(@"Total match score == %d", totalMatchScore);
+    NSLog(@"current choices: %@", self.currentChoices);
 }
 
 - (NSArray *)allUnmatchedChosenCards
@@ -113,23 +154,6 @@ static const int COST_TO_CHOOSE = 1;
     return allChosenCards;
 }
 
-- (Card *)cardAtIndex:(NSUInteger)index
-{
-    Card *card = nil;
-    if (index < [self.cards count]) {
-        card = self.cards[index];
-    }
-    return card;
-}
-
-- (void)updateCurrentChoices
-{
-    if (self.scoreForCurrentMove < 0) {
-        self.currentChoices = [NSMutableArray arrayWithObject:[self.currentChoices lastObject]];
-    } else if (self.scoreForCurrentMove > 0) {
-        [self.currentChoices removeAllObjects];
-    }
-}
 
 - (void)saveGameToPermanentStore
 {

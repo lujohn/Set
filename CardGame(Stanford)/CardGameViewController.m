@@ -9,15 +9,14 @@
 #import "CardGameViewController.h"
 #import "Card.h"
 #import "CardMatchingGame.h"
+#import "Grid.h"
 
 @interface CardGameViewController ()
-
-@property (strong, nonatomic, readwrite) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
-@property (nonatomic, readwrite) NSMutableArray *gameLog;
+@property (weak, nonatomic) IBOutlet UIView *containerForCardViews;
 
 @end
+
 
 @implementation CardGameViewController
 
@@ -36,40 +35,30 @@
     return _game;
 }
 
-- (NSMutableArray *)gameLog
+- (NSMutableArray *)cardViews
 {
-    if (!_gameLog) {
-        _gameLog = [[NSMutableArray alloc] init];
+    if (!_cardViews) {
+        _cardViews = [self cardViewsForGame];
     }
-    return _gameLog;
+    return _cardViews;
 }
 
-
-- (IBAction)touchCardButton:(UIButton *)sender
+- (NSMutableArray *)cardViewsForGame
 {
-    NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex];
-    [self updateUI];
-}
-
-- (void)updateUI
-{
-    for (UIButton *cardButton in self.cardButtons) {
-        NSUInteger index = [self.cardButtons indexOfObject:cardButton];
-        Card *card = [self.game cardAtIndex:index];
-        [cardButton setAttributedTitle:[self attributedTitleForCard:card] forState:UIControlStateNormal];
-        [cardButton setBackgroundImage:[self setBackgroundImageForCard:card] forState:UIControlStateNormal];
-        cardButton.enabled = !card.isMatched;
+    NSMutableArray *cardViews = [[NSMutableArray alloc] init];
+    for (int i = 0; i < self.game.cardCount; i++) {
+        UIView *cardView = [self createCardView];
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+        [cardView addGestureRecognizer:tapRecognizer];
+        
+        [cardViews addObject:cardView];
     }
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score:  %ld", (long)self.game.score];
-    self.resultsLabel.attributedText = [self attributedResults];
-    [self.game updateCurrentChoices];
+    return cardViews;
 }
 
 - (IBAction)newGame:(UIButton *)sender
 {
     self.game = nil;
-    self.gameLog = nil;
     [self updateUI];
 }
 
@@ -78,65 +67,102 @@
     [self.game saveGameToPermanentStore];
 }
 
-- (CardMatchingGame *)createGame
+- (IBAction)tap:(UITapGestureRecognizer *)sender
 {
-    return nil;
-}
-
-- (NSAttributedString *)attributedResults
-{
-    NSInteger matchScore = self.game.scoreForCurrentMove;
-    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
-    if (matchScore == 0) {
-        retString = [[NSMutableAttributedString alloc] initWithString:@"Current Selection(s): "];
-        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
-    } else if (matchScore < 0) {
-        retString = [[NSMutableAttributedString alloc] initWithString:@"Sorry, "];
-        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
-        [retString appendAttributedString:[[NSAttributedString alloc] initWithString:@" do not match!" attributes:@{}]];
-    } else if (matchScore > 0) {
-        retString = [[NSMutableAttributedString alloc] initWithString:@"Matched "];
-        [retString appendAttributedString:[self cardsToAttributedString:self.game.currentChoices]];
-        [retString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %d points!", matchScore] attributes:@{}]];
-    }
-    [self.gameLog addObject:retString];
-    return retString;
-}
-
-// ------- Sublclasses Override for Specialized Behavior --------
-- (NSAttributedString *)attributedTitleForCard:(Card *)card
-{
-    if (card.isChosen) {
-        return [[NSAttributedString alloc] initWithString:card.contents];
-    } else {
-        return [[NSAttributedString alloc] initWithString:@""];
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        UIView *chosenCardView = sender.view;
+        NSUInteger indexOfChosenCardView = [self.cardViews indexOfObject:chosenCardView];
+        [self.game chooseCardAtIndex:indexOfChosenCardView];
+        [self updateUI];
     }
 }
 
-- (UIImage *)setBackgroundImageForCard:(Card *)card
+- (void)updateUI
 {
-    if (card.isChosen) {
-        return [UIImage imageNamed:@"cardfront"];
-    } else {
-        return [UIImage imageNamed:@"cardback"];
+    for (UIView *cardView in self.cardViews) {
+        NSUInteger index = [self.cardViews indexOfObject:cardView];
+        Card *card = [self.game cardAtIndex:index];
+        [self setupView:cardView forCard:card];
+    }
+    [self removeAllMatchedCardsFromGame];
+    [self layoutCardViews];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+}
+
+- (void)removeAllMatchedCardsFromGame
+{
+    NSMutableArray *cardsToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *cardViewsToRemove = [[NSMutableArray alloc] init];
+    for (int i = 0; i < self.game.cardCount; i++) {
+        Card *card = [self.game cardAtIndex:i];
+        if (card.isMatched) {
+            [cardsToRemove addObject:card];
+            UIView *cardView = [self.cardViews objectAtIndex:i];
+            [cardViewsToRemove addObject:cardView];
+            [cardView removeFromSuperview];
+        }
+    }
+    [self.game removeCards:cardsToRemove];
+    [self.cardViews removeObjectsInArray:cardViewsToRemove];
+}
+
+- (void)layoutCardViews
+{
+    Grid *grid = [[Grid alloc] init];
+    grid.size =  self.containerForCardViews.bounds.size;
+    grid.cellAspectRatio = 200.0/320.0;
+    grid.minimumNumberOfCells = self.game.cardCount;
+    
+    NSUInteger indexOfCardView = 0;
+    for (int i = 0; i < grid.rowCount; i++) {
+        for (int j = 0; j < grid.columnCount; j++) {
+            // This ensures that the # of views are no more than the # of cards in game.
+            if (indexOfCardView >= self.game.cardCount) {
+                break;
+            }
+            // Adjust frame
+            CGRect frameForView = [grid frameOfCellAtRow:i inColumn:j];
+            frameForView.origin.x += self.containerForCardViews.frame.origin.x;
+            frameForView.origin.y += self.containerForCardViews.frame.origin.y;
+            
+            UIView *cardView = self.cardViews[indexOfCardView];
+            cardView.frame = frameForView;
+            
+            if (![[self.view subviews] containsObject:cardView]) {
+                [self.view addSubview:cardView];
+            }
+            indexOfCardView++;
+        }
     }
 }
 
+/* ----------- Sublclasses Override for Specialized Behavior ---------- */
 - (void)prepareGame
 {
     self.game.gameMode = 2;
 }
 
 
-// -------- Abstract Methods ----------
+/* --------------------- Abstract Methods ------------------------- */
 - (Deck *)createDeck
 {
     return nil;
 }
 
-- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+- (CardMatchingGame *)createGame
 {
     return nil;
 }
+
+- (UIView *)createCardView
+{
+    return nil;
+}
+
+- (void)setupView:(UIView *)view forCard:(Card *)card
+{
+    return;
+}
+
 
 @end
