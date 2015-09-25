@@ -24,8 +24,8 @@
 - (Card *)cardAtIndex:(NSUInteger)index;
 - (void)saveGameToPermanentStore;
 - (BOOL)addCardToGame;
-- (void)removeCardFromGame:(Card *)card;
-- (void)removeCards:(NSArray *)cards;
+//- (void)removeCardFromGame:(Card *)card;
+//- (void)removeCards:(NSArray *)cards;
 
 // Override for Specialized games
 - (void)chooseCardAtIndex:(NSUInteger)index;

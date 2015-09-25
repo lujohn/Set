@@ -139,8 +139,6 @@ static const int COST_TO_CHOOSE = 1;
         }
     }
     self.scoreForCurrentMove = totalMatchScore;
-    NSLog(@"Total match score == %d", totalMatchScore);
-    NSLog(@"current choices: %@", self.currentChoices);
 }
 
 - (NSArray *)allUnmatchedChosenCards
