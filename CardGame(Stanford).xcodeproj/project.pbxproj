@@ -19,6 +19,7 @@
 		CAB2C0C31B9FE01F00E0C13E /* HighScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB2C0C21B9FE01F00E0C13E /* HighScoresViewController.m */; };
 		CAB2C0CC1BA104D000E0C13E /* PlayingCardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB2C0CB1BA104D000E0C13E /* PlayingCardMatchingGame.m */; };
 		CAB2C0CF1BA10A0D00E0C13E /* SetCardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB2C0CE1BA10A0D00E0C13E /* SetCardMatchingGame.m */; };
+		CABDFAB81BB51C5700D2C638 /* SetCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CABDFAB71BB51C5700D2C638 /* SetCardView.m */; };
 		CAD70CB11BAB8F27000B071B /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD70CB01BAB8F27000B071B /* PlayingCardView.m */; };
 		CAD70CB41BAC78BD000B071B /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD70CB31BAC78BD000B071B /* Grid.m */; };
 		CADE7C051B783FDB0065E702 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CADE7C041B783FDB0065E702 /* main.m */; };
@@ -65,6 +66,8 @@
 		CAB2C0CB1BA104D000E0C13E /* PlayingCardMatchingGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardMatchingGame.m; sourceTree = "<group>"; };
 		CAB2C0CD1BA10A0D00E0C13E /* SetCardMatchingGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCardMatchingGame.h; sourceTree = "<group>"; };
 		CAB2C0CE1BA10A0D00E0C13E /* SetCardMatchingGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardMatchingGame.m; sourceTree = "<group>"; };
+		CABDFAB61BB51C5700D2C638 /* SetCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetCardView.h; path = Model/SetCardView.h; sourceTree = "<group>"; };
+		CABDFAB71BB51C5700D2C638 /* SetCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SetCardView.m; path = Model/SetCardView.m; sourceTree = "<group>"; };
 		CAD70CAF1BAB8F27000B071B /* PlayingCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
 		CAD70CB01BAB8F27000B071B /* PlayingCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
 		CAD70CB21BAC78BD000B071B /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 		CA4B9A441B79EA7100043B69 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CABDFAB61BB51C5700D2C638 /* SetCardView.h */,
+				CABDFAB71BB51C5700D2C638 /* SetCardView.m */,
 				CAD70CAF1BAB8F27000B071B /* PlayingCardView.h */,
 				CAD70CB01BAB8F27000B071B /* PlayingCardView.m */,
 				CA4B9A4E1B7BBE5000043B69 /* CardMatchingGame.h */,
@@ -306,6 +311,7 @@
 				CAD70CB41BAC78BD000B071B /* Grid.m in Sources */,
 				CAB2C0CF1BA10A0D00E0C13E /* SetCardMatchingGame.m in Sources */,
 				CAB2C0CC1BA104D000E0C13E /* PlayingCardMatchingGame.m in Sources */,
+				CABDFAB81BB51C5700D2C638 /* SetCardView.m in Sources */,
 				CA4B9A471B7A628F00043B69 /* PlayingCard.m in Sources */,
 				CA4B9A501B7BBE5000043B69 /* CardMatchingGame.m in Sources */,
 				CA4B9A4D1B7A7D6D00043B69 /* PlayingCardDeck.m in Sources */,

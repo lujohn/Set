@@ -10,9 +10,7 @@
 
 @implementation SetCard
 
-static NSString *DEFAULT_SYMBOL = @"?";
-static NSString *DEFAULT_SHADE_STRING = @"?";
-static NSString *DEFAULT_COLOR = @"?";
+#define ERROR_NUMBER -1
 
 - (int)match:(NSArray *)otherCards
 {
@@ -37,9 +35,9 @@ static NSString *DEFAULT_COLOR = @"?";
             }
             SetCard *setCard = (SetCard *)card;
             (self.number == setCard.number) ? (allNumbersDifferent = NO) : (allNumbersSame = NO);
-            ([self.color isEqualToString:setCard.color]) ? (allColorsDifferent = NO) : (allColorsSame = NO);
-            ([self.shadeString isEqualToString:setCard.shadeString]) ? (allShadesDifferent = NO) : (allShadesSame = NO);
-            ([self.symbol isEqualToString:setCard.symbol]) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
+            (self.color == setCard.color) ? (allColorsDifferent = NO) : (allColorsSame = NO);
+            (self.shade == setCard.shade) ? (allShadesDifferent = NO) : (allShadesSame = NO);
+            (self.symbol == setCard.symbol) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
         }
     }
     for (int i = 0; i < [otherCards count]; i++) {
@@ -48,9 +46,9 @@ static NSString *DEFAULT_COLOR = @"?";
                 SetCard *otherCard1 = (SetCard *)otherCards[i];
                 SetCard *otherCard2 = (SetCard *)otherCards[j];
                 (otherCard1.number == otherCard2.number) ? (allNumbersDifferent = NO) : (allNumbersSame = NO);
-                ([otherCard1.color isEqualToString:otherCard2.color]) ? (allColorsDifferent = NO) : (allColorsSame = NO);
-                ([otherCard1.shadeString isEqualToString:otherCard2.shadeString]) ? (allShadesDifferent = NO) : (allShadesSame = NO);
-                ([otherCard1.symbol isEqualToString:otherCard2.symbol]) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
+                (otherCard1.color == otherCard2.color) ? (allColorsDifferent = NO) : (allColorsSame = NO);
+                (otherCard1.shade == otherCard2.shade) ? (allShadesDifferent = NO) : (allShadesSame = NO);
+                (otherCard1.symbol == otherCard2.symbol) ? (allSymbolsDifferent = NO) : (allSymbolsSame = NO);
             }
             if ((!allSymbolsSame && !allSymbolsDifferent) ||
                 (!allNumbersSame && !allNumbersDifferent) ||
@@ -63,82 +61,73 @@ static NSString *DEFAULT_COLOR = @"?";
     return 5;
 }
 
-- (NSString *)symbolStringForCard
-{
-   NSString *symbolString = @"";
-   for (int i = 0; i < self.number; i++) {
-      symbolString = [symbolString stringByAppendingString:self.symbol];
-   }
-   return symbolString;
-}
-
 @synthesize symbol = _symbol;
 @synthesize color = _color;
-@synthesize shadeString = _shadeString;
+@synthesize shade = _shade;
 
-- (void)setSymbol:(NSString *)symbol
+- (void)setSymbol:(NSNumber *)symbol
 {
    if ([[SetCard validSymbols] containsObject:symbol]) {
       _symbol = symbol;
    }
 }
 
-- (void)setColor:(NSString *)color
+- (void)setColor:(NSNumber *)color
 {
    if ([[SetCard validColors] containsObject:color]) {
       _color = color;
    }
 }
 
-- (void)setShadeString:(NSString *)shade
+- (void)setShade:(NSNumber *)shade
 {
-   if ([[SetCard validShadeStrings] containsObject:shade]) {
-      _shadeString = shade;
+   if ([[SetCard validShades] containsObject:shade]) {
+      _shade = shade;
    }
 }
 
-- (NSString *)symbol
+- (NSNumber *)symbol
 {
    if (_symbol) {
       return _symbol;
    }
-   return DEFAULT_SYMBOL;
+    return [NSNumber numberWithInteger:ERROR_NUMBER];
 }
 
-- (NSString *)shade
+- (NSNumber *)shade
 {
-   if (_shadeString) {
-      return _shadeString;
+   if (_shade) {
+      return _shade;
    }
-   return DEFAULT_SHADE_STRING;
+    return [NSNumber numberWithInteger:ERROR_NUMBER];
 }
 
-- (NSString *)color
+- (NSNumber *)color
 {
    if (_color) {
       return _color;
    }
-   return @"?";
+    return [NSNumber numberWithInteger:ERROR_NUMBER];
 }
 
 + (NSArray *)validSymbols
 {
-   return @[@"▲", @"◼︎", @"●"];
+   return @[@1, @2, @3];
 }
 
 + (NSArray *)validColors
 {
-   return @[@"Red", @"Green", @"Purple"];
+   return @[@1, @2, @3];
 }
 
-+ (NSArray *)validShadeStrings
++ (NSArray *)validShades
 {
-   return @[@"Solid", @"Striped", @"Open"];
+   return @[@1, @2, @3];
 }
 
 - (NSString *)description
 {
-   return [NSString stringWithFormat:@"Number: %d, Symbol: %@, Shade: %@, Color: %@", self.number, self.symbol, self.shadeString, self.color];
+   return [NSString stringWithFormat:@"Number: %@, Symbol: %@, Shade: %@, Color: %@", self.number, self.symbol, self.shade, self.color];
 }
 
 @end

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardGame(Stanford)/Model/SetCard.m"
-            timestampString = "463350785.513348"
+            timestampString = "465267133.470218"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "-calculateMatchScore:"
             landmarkType = "5">
          </BreakpointContent>

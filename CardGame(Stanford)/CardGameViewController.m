@@ -56,7 +56,6 @@
 {
     if (![self.game addCardToGame]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oh No!" message:@"No more cards remaining!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        
         [alert show];
     } else {
         [self.cardViews addObject:[self createCardViewWithTapGestureRecognizer]];
@@ -152,11 +151,7 @@
 
 // Other stuff
 
-- (IBAction)newGame:(UIButton *)sender
-{
-    self.game = nil;
-    [self updateUI];
-}
+
 
 - (IBAction)save:(UIButton *)sender
 {

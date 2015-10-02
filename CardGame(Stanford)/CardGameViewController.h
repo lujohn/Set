@@ -20,9 +20,9 @@
 - (Deck *)createDeck;
 - (CardMatchingGame *)createGame;
 - (UIView *)createCardView;
+- (void)setupView:(UIView *)view forCard:(Card *)card;
 
 // Subclasses should override for specialized behavior
 - (void)prepareGame;
-- (void)setupView:(UIView *)view forCard:(Card *)card;
 
 @end

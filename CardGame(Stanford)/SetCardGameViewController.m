@@ -10,97 +10,56 @@
 #import "SetCardDeck.h"
 #import "SetCard.h"
 #import "SetCardMatchingGame.h"
+#import "SetCardView.h"
 
 @implementation SetCardGameViewController
 
+#define DEFAULT_NUM_CARDS 12
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 }
 
 /* ------------ Abstract Method Implementations ------------- */
-- (NSAttributedString *)cardsToAttributedString:(NSArray *)cards
+- (Deck *)createDeck
 {
-    NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithString:@""];
-    for (SetCard *card in cards) {
-        [retString appendAttributedString:[self attributedTitleForCard:card]];
-    }
-    return retString;
+    return [[SetCardDeck alloc] init];;
 }
 
 - (CardMatchingGame *)createGame
 {
-    return [[SetCardMatchingGame alloc] initWithCardCount:[self.cardViews count] usingDeck:[self createDeck]];
+    return [[SetCardMatchingGame alloc] initWithCardCount:DEFAULT_NUM_CARDS usingDeck:[self createDeck]];
 }
 
-- (Deck *)createDeck
+- (UIView *)createCardView
 {
-    Deck *setDeck = [[SetCardDeck alloc] init];
-    return setDeck;
+    return [[SetCardView alloc] init];
+}
+
+- (void)setupView:(UIView *)view forCard:(Card *)card;
+{
+    if ([card isMemberOfClass:[SetCard class]] && [view isMemberOfClass:[SetCardView class]]) {
+        SetCardView *setCardView = (SetCardView *)view;
+        SetCard *setCard = (SetCard *)card;
+        setCardView.number = setCard.number;
+        setCardView.symbol = setCard.symbol;
+        setCardView.shade = setCard.shade;
+        setCardView.color = setCard.color;
+        if (setCard.isChosen) {
+            setCardView.alpha = 0.8;
+        } else {
+            setCardView.alpha = 1.0;
+        }
+    }
 }
 
 /* -------------- Method Overrides -------------- */
-- (NSAttributedString *)attributedTitleForCard:(Card *)card
-{
-    SetCard *setCard = (SetCard *)card;
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[setCard symbolStringForCard]];
-    NSRange range = NSMakeRange(0, [[setCard symbolStringForCard] length]);
-    
-    NSDictionary *attributes = [self attributesForCard:setCard];
-    if (attributes) {
-        [title addAttributes:attributes range:range];
-    }
-    return title;
-}
-
-- (UIImage *)setBackgroundImageForCard:(Card *)card
-{
-    if (card.isChosen) {
-        return [UIImage imageNamed:@"setCardChosen"];
-    } else {
-        return [UIImage imageNamed:@"cardfront"];
-    }
-}
-
 - (void)prepareGame
 {
     self.game.gameMode = 3;
 }
 
 /* ---------- Helper Methods ----------- */
-- (NSDictionary *)attributesForCard:(SetCard *)card
-{
-    NSDictionary *attributes = nil;
-    if ([card.shadeString isEqualToString:@"Striped"]) {
-        attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:card.color withAlpha:0.3],
-                       NSStrokeWidthAttributeName : @-5,
-                       NSStrokeColorAttributeName : [self colorFromColorString:card.color]};
-    } else if ([card.shadeString isEqualToString:@"Open"]) {
-        attributes = @{NSForegroundColorAttributeName : [UIColor clearColor],
-                       NSStrokeColorAttributeName: [self colorFromColorString:card.color],
-                       NSStrokeWidthAttributeName: @-8};
-    } else {
-        attributes = @{NSForegroundColorAttributeName : [self colorFromColorString:card.color]};
-    }
-    return attributes;
-}
 
-- (UIColor *)colorFromColorString:(NSString *)color
-{
-    return [self colorFromColorString:color withAlpha:1.0];
-}
-
-- (UIColor *)colorFromColorString:(NSString *)color withAlpha:(CGFloat)alpha
-{
-    if ([color isEqualToString:@"Red"]) {
-        return [UIColor colorWithRed:1 green:0 blue:0 alpha:alpha];
-    } else if ([color isEqualToString:@"Green"]) {
-        return [UIColor colorWithRed:0 green:1 blue:0 alpha:alpha];
-    } else if ([color isEqualToString:@"Purple"]) {
-        return [UIColor colorWithRed:1 green:0 blue:1 alpha:alpha];
-    } else {
-        return [UIColor blackColor];  // default color
-    }
-}
 
 @end

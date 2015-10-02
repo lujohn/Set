@@ -34,32 +34,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SJp-dP-fNM">
-                                <rect key="frame" x="150" y="487" width="200" height="24"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ah-Di-5is">
-                                <rect key="frame" x="150" y="446" width="150" height="34"/>
-                                <color key="backgroundColor" red="0.098039217293262482" green="0.098039217293262482" blue="0.098039217293262482" alpha="0.5" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="tjP-oK-Dq3"/>
-                                </constraints>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Deal New Cards">
-                                            <attributes>
-                                                <color key="NSColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="19" name="HelveticaNeue"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
-                                <connections>
-                                    <action selector="newGame:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xfo-Hc-ec6"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H24-Do-zTi">
                                 <rect key="frame" x="28" y="481" width="34" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,9 +44,12 @@
                                     <action selector="save:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="UrN-9z-aZr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dno-G6-x7d">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dno-G6-x7d">
                                 <rect key="frame" x="16" y="443" width="126" height="30"/>
                                 <color key="backgroundColor" red="0.70196080207824707" green="0.70196080207824707" blue="0.70196080207824707" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="126" id="LQN-eW-gQ4"/>
+                                </constraints>
                                 <state key="normal" title="Add Cards">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -81,20 +58,30 @@
                                     <action selector="addCard:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="khA-rR-2se"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MLG-F3-tNC">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLG-F3-tNC">
                                 <rect key="frame" x="16" y="72" width="288" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SJp-dP-fNM">
+                                <rect key="frame" x="150" y="449" width="200" height="24"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="SJp-dP-fNM" firstAttribute="leading" secondItem="H24-Do-zTi" secondAttribute="trailing" constant="88" id="E0g-QL-CU4"/>
+                            <constraint firstItem="MLG-F3-tNC" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Da3-bc-Rkg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SJp-dP-fNM" secondAttribute="trailing" constant="-46" id="Gs3-6c-ecg"/>
-                            <constraint firstItem="SJp-dP-fNM" firstAttribute="bottom" secondItem="H24-Do-zTi" secondAttribute="bottom" id="Suy-Fn-UbJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4Ah-Di-5is" secondAttribute="trailing" constant="4" id="T3c-IC-D8Z"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="SJp-dP-fNM" secondAttribute="bottom" constant="8" symbolic="YES" id="cci-oo-yCQ"/>
-                            <constraint firstItem="SJp-dP-fNM" firstAttribute="leading" secondItem="4Ah-Di-5is" secondAttribute="leading" id="jZb-lh-XdK"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="4Ah-Di-5is" secondAttribute="bottom" constant="39" id="kof-fC-L3Y"/>
+                            <constraint firstItem="SJp-dP-fNM" firstAttribute="leading" secondItem="Dno-G6-x7d" secondAttribute="trailing" constant="8" symbolic="YES" id="KhA-a6-zZB"/>
+                            <constraint firstItem="H24-Do-zTi" firstAttribute="top" secondItem="Dno-G6-x7d" secondAttribute="bottom" constant="8" symbolic="YES" id="MGw-Tz-PAQ"/>
+                            <constraint firstItem="MLG-F3-tNC" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="Qbo-pS-TxK"/>
+                            <constraint firstItem="Dno-G6-x7d" firstAttribute="top" secondItem="MLG-F3-tNC" secondAttribute="bottom" constant="5" id="cAL-5b-dkC"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="SJp-dP-fNM" secondAttribute="bottom" constant="46" id="cci-oo-yCQ"/>
+                            <constraint firstItem="Dno-G6-x7d" firstAttribute="leading" secondItem="MLG-F3-tNC" secondAttribute="leading" id="eks-9t-6cC"/>
+                            <constraint firstItem="H24-Do-zTi" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="12" id="fQN-oq-ugo"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="H24-Do-zTi" secondAttribute="bottom" constant="8" symbolic="YES" id="jgu-za-SlE"/>
+                            <constraint firstItem="Dno-G6-x7d" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="mpl-WG-MsN"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Playing Card" image="PlayingCardGameTabBarIcon" id="Mvq-4i-PVD"/>
@@ -550,33 +537,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6h-m3-ZNU">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6h-m3-ZNU">
                                 <rect key="frame" x="27" y="449" width="112" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="PK1-yk-F1V"/>
+                                    <constraint firstAttribute="width" constant="112" id="dCy-pt-zdW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z1r-QK-1kn">
-                                <rect key="frame" x="149" y="449" width="139" height="25"/>
-                                <color key="backgroundColor" red="0.47725386859521396" green="0.474747436215327" blue="0.47979797979797978" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Deal New Cards">
-                                            <attributes>
-                                                <color key="NSColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="19" name="HelveticaNeue"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
-                                <connections>
-                                    <action selector="newGame:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Si6-w8-bPp"/>
-                                    <action selector="newGame:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="vUJ-Ua-eHi"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SQr-W7-ihe">
-                                <rect key="frame" x="16" y="481" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SQr-W7-ihe">
+                                <rect key="frame" x="16" y="481" width="34" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Save">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -586,14 +558,46 @@
                                     <action selector="save:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="Xub-7H-rwJ"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nHn-sD-YYb">
+                                <rect key="frame" x="16" y="72" width="288" height="366"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zpn-vk-eXD">
+                                <rect key="frame" x="178" y="481" width="126" height="30"/>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="126" id="Wc4-xd-R4L"/>
+                                </constraints>
+                                <state key="normal" title="Add Cards">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addCard:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FsT-jL-Cua"/>
+                                    <action selector="addCard:" destination="2Ud-CC-pJc" eventType="touchUpInside" id="Q6x-BH-IMZ"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Zpn-vk-eXD" firstAttribute="top" secondItem="nHn-sD-YYb" secondAttribute="bottom" constant="43" id="5c4-AI-4m6"/>
+                            <constraint firstItem="nHn-sD-YYb" firstAttribute="top" secondItem="yjE-Qs-jyH" secondAttribute="bottom" constant="8" symbolic="YES" id="HSQ-SN-Yec"/>
+                            <constraint firstItem="Zpn-vk-eXD" firstAttribute="trailing" secondItem="bMk-9I-LzC" secondAttribute="trailingMargin" id="Ov1-Qh-zrN"/>
+                            <constraint firstItem="j6h-m3-ZNU" firstAttribute="leading" secondItem="bMk-9I-LzC" secondAttribute="leadingMargin" constant="11" id="QfE-LT-79M"/>
+                            <constraint firstItem="Zpn-vk-eXD" firstAttribute="baseline" secondItem="SQr-W7-ihe" secondAttribute="baseline" id="WFA-An-w4J"/>
+                            <constraint firstItem="vPy-TQ-HXY" firstAttribute="top" secondItem="Zpn-vk-eXD" secondAttribute="bottom" constant="8" symbolic="YES" id="ohR-QD-yoY"/>
+                            <constraint firstItem="Zpn-vk-eXD" firstAttribute="trailing" secondItem="nHn-sD-YYb" secondAttribute="trailing" id="qyj-2k-tcX"/>
+                            <constraint firstItem="nHn-sD-YYb" firstAttribute="leading" secondItem="SQr-W7-ihe" secondAttribute="leading" id="rz2-aD-UcP"/>
+                            <constraint firstItem="j6h-m3-ZNU" firstAttribute="top" secondItem="nHn-sD-YYb" secondAttribute="bottom" constant="11" id="v3m-X3-WeU"/>
+                            <constraint firstItem="nHn-sD-YYb" firstAttribute="leading" secondItem="bMk-9I-LzC" secondAttribute="leadingMargin" id="vlp-xn-Nx5"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Set" image="SetCardGameTabBarIcon" id="kPH-Bb-VW9"/>
                     <navigationItem key="navigationItem" title="Set Card Game" id="Rq8-d8-mb4">
                         <barButtonItem key="rightBarButtonItem" title="History" id="l2z-Fj-7SS"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="containerForCardViews" destination="nHn-sD-YYb" id="87U-22-fWP"/>
                         <outlet property="scoreLabel" destination="j6h-m3-ZNU" id="K18-b0-MyL"/>
                     </connections>
                 </viewController>

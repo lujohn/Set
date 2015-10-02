@@ -17,14 +17,14 @@
    self = [super init];
    if (self) {
       for (int i = 1; i <= 3; i++) {
-         for (NSString *symbol in [SetCard validSymbols]) {
-            for (NSString *shadeString in [SetCard validShadeStrings]) {
-               for (NSString *color in [SetCard validColors]) {
+         for (NSNumber *symbol in [SetCard validSymbols]) {
+            for (NSNumber *shadeString in [SetCard validShades]) {
+               for (NSNumber *color in [SetCard validColors]) {
                   SetCard *card = [[SetCard alloc] init];
                   card.symbol = symbol;
-                  card.shadeString = shadeString;
+                  card.shade = shadeString;
                   card.color = color;
-                  card.number = i;
+                  card.number = [NSNumber numberWithInteger:i];
                   [self addCard:card];
                }
             }
